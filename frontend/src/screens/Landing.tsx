@@ -1,13 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import ChessBoard from "../assets/chess_board.png";
 import Button from "../components/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "../components/Header";
 
 const Landing = () => {
     const [name, setName] = useState('');
-
     const nav = useNavigate();
+
+    useEffect(() => {
+        if (sessionStorage.getItem('playerName') != null) {
+            nav('game');
+        }
+    },[nav]);
+    
     return (
         <div>
             <Header />

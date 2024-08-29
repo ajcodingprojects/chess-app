@@ -9,13 +9,22 @@ import { Header } from "../components/Header";
 
 const Game = () => {
     const socket = useSocket();
-    const [chess] = useState(new Chess());
+    const [chess, setChess] = useState(new Chess());
     const [board, setBoard] = useState(chess.board());
     const [started, setStarted] = useState(false);
     const [color, setColor] = useState<string | null>(null);
     const [canMove, setCanMove] = useState(false);
     const [hasWon, setHasWon] = useState<boolean | null>(null);
     const [player, setPlayer] = useState('');
+    const [showButton, setShowButton] = useState(false); // New state
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowButton(true);
+        }, 3000); // 2 seconds delay
+
+        return () => clearTimeout(timer); // Cleanup the timer
+    }, []);
 
     useEffect(() => {
         if (player === '') {
@@ -44,9 +53,20 @@ const Game = () => {
                     break;
             }
         }
-    }, [canMove, chess, color, socket])
+    }, [canMove, chess, color, socket]);
 
-    if (!socket) return <div><h2>Connecting...</h2><br/><p>Please refresh the page if this message lasts for more than a few seconds</p></div>;
+    if (!socket) return (
+        <div>
+            <h2>Connecting to server...</h2>
+            <br />
+            <p>Please refresh the page if this message lasts for more than a few seconds</p>
+            {showButton && (
+                <Button disabled={false} onClick={() => window.location.href = '/'}>
+                    Refresh Page
+                </Button>
+            )}
+        </div>
+    );
 
     return (
         <div className="flex h-screen container-div before-board">
@@ -115,8 +135,14 @@ const Game = () => {
                                         {hasWon ? "You Won!" : "You Lost"}
                                     </h1>
                                     <Button disabled={false} onClick={() => {
-                                            sessionStorage.setItem('playerName', player)
-                                            window.location.reload();
+                                        sessionStorage.setItem('playerName', player)
+                                        setChess(new Chess());
+                                        setHasWon(null);
+                                        setCanMove(false);
+                                        setColor(null);
+                                        setStarted(false);
+                                        setBoard(chess.board());
+                                        window.location.href = '/';
                                     }}>
                                         Play Again
                                     </Button>
