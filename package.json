@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "cd ./frontend && npm run dev"
+  },
   "dependencies": {
     "@types/ws": "^8.5.12",
     "ws": "^8.18.0"

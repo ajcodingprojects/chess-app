@@ -1,6 +1,6 @@
 import { Chess, Color, PieceSymbol, Square } from "chess.js";
 import { useState } from "react";
-import { MOVE } from "../../../backend/src/messages";
+import { MOVE } from "../shared/types";
 import bk from '../assets/bk.png';
 import bp from '../assets/bp.png';
 import bq from '../assets/bq.png';
@@ -33,7 +33,7 @@ const ChessBoard = ({ canMove, chess, board, setBoard, setCanMove, socket }: { c
     ]);
     
     return (
-        <div className="w-full max-w-[50vw] grid place-items-center">
+        <div className="w-full max-w-[50vw] grid place-items-center real-width">
             <div className="relative w-full pb-[100%]">
                 <div className="absolute inset-0 grid grid-cols-8 gap-1">
                     {board.map((row, i) => (
