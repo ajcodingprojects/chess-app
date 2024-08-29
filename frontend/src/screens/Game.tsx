@@ -9,7 +9,7 @@ import { Header } from "../components/Header";
 
 const Game = () => {
     const socket = useSocket();
-    const [chess, setChess] = useState(new Chess());
+    const [chess] = useState(new Chess());
     const [board, setBoard] = useState(chess.board());
     const [started, setStarted] = useState(false);
     const [color, setColor] = useState<string | null>(null);
@@ -114,12 +114,12 @@ const Game = () => {
                                     <h1 className="text-4xl font-bold">
                                         {hasWon ? "You Won!" : "You Lost"}
                                     </h1>
-                                    <Button onClick={() => {
+                                    <Button disabled={false} onClick={() => {
                                             sessionStorage.setItem('playerName', player)
                                             window.location.reload();
                                     }}>
                                         Play Again
-                                        </Button>
+                                    </Button>
                                 </div>
                             </div>
                         </div>
